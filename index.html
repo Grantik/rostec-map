@@ -10,6 +10,100 @@
 </head>
 <body>
 
+<!-- =========== WELCOME OVERLAY =========== -->
+<div id="welcome" class="hidden-init">
+  <div class="welcome-backdrop"></div>
+  <div class="welcome-card">
+    <button class="welcome-close" id="welcome-close" aria-label="Закрыть">✕</button>
+    <div class="welcome-kicker">Ростех <em>×</em> Маркетплейсы</div>
+    <div class="welcome-subkicker">Карта пересечений 2019 — 2028</div>
+
+    <div class="welcome-hero">
+      <div class="welcome-hero-lede">За 10 лет маркетплейсы зашли в трудовые ареалы</div>
+      <div class="welcome-hero-row">
+        <span class="welcome-big">43</span>
+        <span class="welcome-arrow">→</span>
+        <span class="welcome-big accent">105</span>
+      </div>
+      <div class="welcome-hero-caption">Ростех-предприятий. 50-км зоны пересечения с РЦ WB/Ozon</div>
+    </div>
+
+    <div class="welcome-hero secondary">
+      <div class="welcome-hero-lede">Этим маркетплейсы создали спрос в 50-км зоне на</div>
+      <div class="welcome-hero-row">
+        <span class="welcome-med accent">+124 тыс</span>
+      </div>
+      <div class="welcome-hero-caption">рабочих рук из базы Ростеха за 2019 → 2028</div>
+      <div class="welcome-hero-foot">+50 тыс к 2024 · ещё +73 тыс к 2028 по опубликованным планам РЦ</div>
+    </div>
+
+    <div class="welcome-block">
+      <div class="welcome-block-title">Одна трудовая зона — два работодателя</div>
+      <div class="welcome-block-body">
+        <strong>Мужчины 25-55</strong> — рабочие специальности (токари, сборщики, электрики, водители погрузчиков). <strong>Женщины 30-55</strong> — среднее специальное образование, сменная ручная работа (швеи, упаковщицы, сортировщицы). Региональная оседлость, редко переезжают.
+      </div>
+      <div class="welcome-players">
+        <div class="welcome-player">
+          <div class="welcome-player-name">Ростех</div>
+          <div class="welcome-player-desc">
+            Тянет на <abbr title="Государственный оборонный заказ. Резко вырос после 2022 — спрос на кадры следом.">ГОЗ*</abbr>: стабильность, соц-пакет, привычная работа. Плюс активное расширение — <abbr title="Дочерняя структура концерна «Калашников» (Ростех). С конца 2024 скупила 25+ швейных фабрик под производство военной спецодежды.">Триада-ТКО*</abbr> с конца 2024 скупила 25+ швейных фабрик.
+          </div>
+        </div>
+        <div class="welcome-player">
+          <div class="welcome-player-name">Маркетплейсы (WB, Ozon)</div>
+          <div class="welcome-player-desc">
+            Тянут в ту же зону: выше ставка, гибкий график, пешая доступность. 36 новых РЦ в 2025-2028.
+          </div>
+        </div>
+      </div>
+      <div class="welcome-block-foot">* наведи курсор — будет расшифровка</div>
+    </div>
+
+    <div class="welcome-block">
+      <div class="welcome-block-title">Как читать карту</div>
+      <div class="welcome-howto">
+        <div class="welcome-howto-row">
+          <span class="welcome-howto-num">1</span>
+          <div><strong>Слайдер лет внизу</strong> — перетягивай год или жми ▶. Увидишь хронологию: как с 2019 точки пересечения росли — и как 2026 добавит ещё 20+ новых РЦ.</div>
+        </div>
+        <div class="welcome-howto-row">
+          <span class="welcome-howto-num">2</span>
+          <div><strong>Цифра справа сверху</strong> — сколько Ростех-предприятий сейчас в зоне. Меняется при движении слайдера и фильтров. 43 в 2019 → 105 в 2028.</div>
+        </div>
+        <div class="welcome-howto-row">
+          <span class="welcome-howto-num">3</span>
+          <div><strong>Ползунок радиуса</strong> (в боковой панели) — проверь гипотезу. На 30 км: ~40 пр-тий «рука в руку» с РЦ. На 100 км: 119 — вся европейская часть и Урал в одном поле. 50 км — реалистичная «зона перехода» работника: автобус, вахта, личный транспорт.</div>
+        </div>
+        <div class="welcome-howto-row">
+          <span class="welcome-howto-num">4</span>
+          <div><strong>Фильтры</strong> — по статусу кадрового дефицита, по операторам WB/Ozon, по действующим vs плановым РЦ, по М&A Ростеха. Всё пересчитывается на лету.</div>
+        </div>
+        <div class="welcome-howto-row">
+          <span class="welcome-howto-num">5</span>
+          <div><strong>Горячие кластеры</strong> в панели — клик перелетает к ключевым местам: Ижевск, Пермь, Уфа, Новосибирск, Тула, Ростов.</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="welcome-cta" id="welcome-start">Начать →</button>
+
+    <div class="welcome-hints">
+      <span class="welcome-hints-label">подсветить на карте:</span>
+      <button class="welcome-hint-btn" data-hint="years">годы</button>
+      <span class="welcome-hint-sep">·</span>
+      <button class="welcome-hint-btn" data-hint="ticker">ключевая цифра</button>
+      <span class="welcome-hint-sep">·</span>
+      <button class="welcome-hint-btn" data-hint="filters">фильтры</button>
+    </div>
+  </div>
+</div>
+
+<!-- Отдельный layer для spotlight-подсказок (под welcome) -->
+<div id="hint-overlay" class="hidden-init" aria-hidden="true">
+  <div class="hint-backdrop"></div>
+  <div class="hint-bubble" id="hint-bubble"></div>
+</div>
+
 <div id="topbar">
   <div class="brand">Ростех <em>×</em> Маркетплейсы</div>
   <div class="divider"></div>
@@ -91,6 +185,8 @@
     Порог 50 км — реалистичная «зона перехода» для работника: автобус, вахта, личный транспорт.
     Пр-тия без пересечения на карту не попадают — таких 38.
   </p>
+
+  <button class="show-welcome-btn" id="show-welcome-btn">↻ Показать введение</button>
 </div>
 
 <div id="timeline">
