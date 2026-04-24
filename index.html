@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07090c">
+<title>Ростех × Маркетплейсы — карта пересечений</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="src/map.css">
+</head>
+<body>
+
+<div id="topbar">
+  <div class="brand">Ростех <em>×</em> Маркетплейсы</div>
+  <div class="divider"></div>
+  <div class="meta">Пересечения ≤<strong><span id="meta-radius">50</span> км</strong><br>2019 — 2028</div>
+  <div class="ticker">
+    <div class="label">Ростех-пр-тий с РЦ</div>
+    <div class="value">
+      <span class="now" id="ticker-now">—</span>
+      <span class="of">/</span>
+      <span class="total" id="ticker-total">—</span>
+    </div>
+  </div>
+</div>
+
+<div id="map"></div>
+
+<div id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text">Загрузка данных…</div>
+  <div class="loading-sub" id="loading-detail"></div>
+</div>
+
+<button id="sheet-toggle">Детали · <span class="n" id="sheet-n">—</span> пр-тий</button>
+
+<div id="sidebar">
+  <button id="sheet-close">Закрыть ✕</button>
+  <p class="lead" id="lead-text">Проблема нарастает.</p>
+  <p class="sub" id="lead-sub">За десять лет ×2.4 пр-тий Ростеха оказались в 50-км зоне сложившегося маркетплейса.</p>
+
+  <h2>Хронология</h2>
+  <div class="stat"><div class="n" id="st-2019">—</div><div class="d">2019 — базовый год. 23 РЦ WB/Ozon.</div></div>
+  <div class="stat"><div class="n" id="st-2024">—</div><div class="d">2024 — <strong>кризисный рубеж.</strong> Санкции + ГОЗ, анонс Ким 6.9 млн кв.м.</div></div>
+  <div class="stat"><div class="n acc" id="st-2028">—</div><div class="d">2028 — плато после ввода 36 новых РЦ 2025-2028.</div></div>
+
+  <h2>Статусы Ростех-пр-тий</h2>
+  <label class="filter-row"><input type="checkbox" class="status-cb" value="acute_def" checked><span class="dot" style="background:#d94a3d"></span>Острый дефицит<span class="count" id="c-acute_def"></span></label>
+  <label class="filter-row"><input type="checkbox" class="status-cb" value="mod_def" checked><span class="dot" style="background:#c08642"></span>Умеренный дефицит<span class="count" id="c-mod_def"></span></label>
+  <label class="filter-row"><input type="checkbox" class="status-cb" value="neutral" checked><span class="dot" style="background:#a5a472"></span>Нейтрально<span class="count" id="c-neutral"></span></label>
+  <label class="filter-row"><input type="checkbox" class="status-cb" value="mod_surp" checked><span class="dot" style="background:#6b8aa8"></span>Умеренный избыток<span class="count" id="c-mod_surp"></span></label>
+  <label class="filter-row"><input type="checkbox" class="status-cb" value="strong_surp" checked><span class="dot" style="background:#4a7ba8"></span>Выраженный избыток<span class="count" id="c-strong_surp"></span></label>
+
+  <h2>Маркетплейсы</h2>
+  <label class="filter-row" style="color:#8fb8e8"><input type="checkbox" class="mp-cb" value="WB" checked><span class="sq" style="background:#1e78d4"></span>WB — действующие<span class="count" id="c-wb-open"></span></label>
+  <label class="filter-row" style="color:#8fb8e8"><input type="checkbox" class="mp-cb-planned" value="WB-pl" checked><span class="sq hatched" style="color:#1e78d4"></span>WB — план/стройка<span class="count" id="c-wb-pl"></span></label>
+  <label class="filter-row" style="color:#7ed8e0"><input type="checkbox" class="mp-cb" value="Ozon" checked><span class="sq" style="background:#00b4c8"></span>Ozon — действующие<span class="count" id="c-oz-open"></span></label>
+  <label class="filter-row" style="color:#7ed8e0"><input type="checkbox" class="mp-cb-planned" value="Ozon-pl" checked><span class="sq hatched" style="color:#00b4c8"></span>Ozon — план/стройка<span class="count" id="c-oz-pl"></span></label>
+
+  <h2>М&A ВПК 2024-2026 <span class="h2-badge" id="c-acq">—</span></h2>
+  <p class="sub" style="margin-bottom:8px">Прямая скупка гражданских активов военно-промышленными холдингами в зонах пересечения с маркетплейсами. Конкуренция за одну и ту же рабочую силу.</p>
+  <label class="filter-row"><input type="checkbox" id="cb-acquisitions" checked><span class="dot acq-dot"></span>Показывать М&A события</label>
+
+  <h2>Радиус пересечения</h2>
+  <div class="slider-wrap">
+    <label>Радиус <span class="val"><span id="radius-val">50</span> км</span></label>
+    <input type="range" id="radius" min="10" max="100" step="5" value="50">
+  </div>
+
+  <h2>Показать на карте</h2>
+  <label class="filter-row"><input type="checkbox" id="cb-cities" checked><span class="dot" style="background:#8590a0"></span>Названия городов</label>
+
+  <h2>Горячие кластеры</h2>
+  <button class="cluster-btn hot" data-lat="56.85" data-lng="53.21" data-zoom="9"><span class="name">Ижевск</span><span class="desc">Калашников + ИМЗ + ИжБС ← WB Сарапул 0 км</span></button>
+  <button class="cluster-btn hot" data-lat="58.01" data-lng="56.24" data-zoom="9"><span class="name">Пермь ⟶ 2026</span><span class="desc">ОДК-ПМ + ОДК-СТАР + Редуктор ← WB план 0 км</span></button>
+  <button class="cluster-btn hot" data-lat="54.74" data-lng="55.97" data-zoom="9"><span class="name">Уфа ⟶ 2026</span><span class="desc">УАПО + УППО + Гидравлика ← WB план 0 км</span></button>
+  <button class="cluster-btn hot" data-lat="55.03" data-lng="82.92" data-zoom="9"><span class="name">Новосибирск ⟶ 2026</span><span class="desc">НАЗ Чкалова (Су-34) ← Ozon 0 + WB план</span></button>
+  <button class="cluster-btn hot" data-lat="47.7" data-lng="39.8" data-zoom="8"><span class="name">Ростовская обл ⟶ 2025</span><span class="desc">5 фабрик Триады-ТКО (Gloria Jeans + Булава)</span></button>
+  <button class="cluster-btn" data-lat="56.84" data-lng="60.61" data-zoom="9"><span class="name">Екатеринбург</span><span class="desc">5 acute пр-тий ← Ozon + WB 2025</span></button>
+  <button class="cluster-btn" data-lat="54.19" data-lng="37.62" data-zoom="9"><span class="name">Тула</span><span class="desc">КБП + СПЛАВ + ЦКБА + Триада-ТКО</span></button>
+  <button class="cluster-btn" data-lat="55.43" data-lng="37.55" data-zoom="10"><span class="name">Подольск</span><span class="desc">ЦНИИТОЧМАШ + КСПЗ ← WB Коледино 4 км</span></button>
+  <button class="cluster-btn" data-lat="51.66" data-lng="39.2" data-zoom="9"><span class="name">Воронеж</span><span class="desc">ВАСО + Созвездие ← WB + 2× Ozon</span></button>
+  <button class="cluster-btn" data-lat="60" data-lng="70" data-zoom="4"><span class="name">Вся Россия</span><span class="desc">общий вид</span></button>
+
+  <h2>Данные</h2>
+  <p class="sub" id="data-version">Версия данных загружается…</p>
+
+  <h2>Что считается пересечением</h2>
+  <p class="sub">
+    <strong style="color:var(--text)">Пара</strong> = пр-тие Ростеха и РЦ WB/Ozon в радиусе указанного порога (по умолчанию 50 км).
+    Порог 50 км — реалистичная «зона перехода» для работника: автобус, вахта, личный транспорт.
+    Пр-тия без пересечения на карту не попадают — таких 38.
+  </p>
+</div>
+
+<div id="timeline">
+  <div class="tl-head">
+    <span class="tl-label-year">Год</span>
+    <span class="year-big" id="year-val">2028</span>
+    <button class="play-btn" id="play-btn">▶ Проиграть</button>
+    <span class="event" id="tl-event"></span>
+  </div>
+  <input type="range" id="year-slider" min="2019" max="2028" step="1" value="2028">
+  <div class="tl-ticks"><span>2019</span><span>2020</span><span>2021</span><span>2022</span><span>2023</span><span>2024</span><span>2025</span><span>2026</span><span>2027</span><span>2028</span></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="src/map.js"></script>
+</body>
+</html>

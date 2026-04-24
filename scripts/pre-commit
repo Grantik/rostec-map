@@ -1,0 +1,26 @@
+#!/bin/sh
+# Pre-commit hook — валидирует data/*.json перед коммитом
+# Установка: cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+REPO=$(git rev-parse --show-toplevel)
+cd "$REPO" || exit 1
+
+# Проверяем только если data/ изменились
+if git diff --cached --name-only | grep -q '^data/'; then
+    echo "→ Валидация data/*.json…"
+    python3 scripts/update.py validate
+    if [ $? -ne 0 ]; then
+        echo "✗ Валидация не пройдена. Коммит отменён."
+        exit 1
+    fi
+
+    # Автообновление meta.json если он не тронут, но данные изменились
+    if git diff --cached --name-only | grep -vq '^data/meta.json$' | grep -q '^data/'; then
+        if ! git diff --cached --name-only | grep -q '^data/meta.json$'; then
+            echo "→ Автообновление meta.json…"
+            python3 scripts/update.py bump
+            git add data/meta.json
+        fi
+    fi
+fi
+exit 0

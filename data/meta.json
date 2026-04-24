@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "last_updated": "2026-04-24",
+  "datasets": {
+    "rostec": {
+      "count": 145,
+      "version": 4
+    },
+    "marketplaces": {
+      "count": 60,
+      "version": 4,
+      "planned_count": 16
+    },
+    "timelines": {
+      "count": 26,
+      "version": 3
+    },
+    "cities": {
+      "count": 34,
+      "version": 1
+    },
+    "acquisitions": {
+      "count": 7,
+      "version": 1
+    }
+  },
+  "attribution": "ЦТИ research, 2026"
+}
